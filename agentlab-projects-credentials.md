@@ -6,27 +6,32 @@
 
 ## Overview
 
-| # | Project | Department | Used by | Output | Credentials? |
-|---|---|---|---|---|---|
-| 1 | AI Initiative Shop | AI Dept | All departments, AI Dept | Process docs + exec deck (PPTX/PDF) | Google Doc access only |
-| 2 | AI Org Deck | AI Dept | AI Dept → leadership | Slide decks (PPTX/PDF) | Google access to rebuild |
-| 3 | AI Projects Setup | AI Dept | AI Dept, builders, agents | A Google service account per project | **Yes**: GCP admin, 1Password, oauth2l |
-| 4 | AI Workstation Setup | AI Dept | New staff, AI Dept | A configured Mac + `~/Workspaces`; scheduled tasks | **Yes**: Claude seat, Google, 1Password, Slack… |
-| 5 | Investor Materials | AI Dept | Leadership, marketing | Narrative docs + investor deck | No |
-| 6 | Census Raccoon | Sales | AEs (users), engineers | **Excel file** (`normalized.xlsx`) + summary; the app is a Mac `.dmg` | **Yes**: AWS Bedrock key |
-| 7 | Proposal Studio | Sales | AEs → prospects | **Interactive HTML + PDF proposal** | AEs: Drive + Tornado access. Builders: Google, Figma, Slack |
-| 8 | Enrollment Copilot | Operations | Ops operators | **Completed enrollment on the carrier website** + recordings in Drive | **Yes**: carrier logins, AWS, Google service account |
-| 9 | CRM Cockpit | Operations | Ops managers | **Single HTML dashboard** + PDF reports + Doc tab | **Yes**: Intercom API token, Google |
-| 10 | Enrollment Dashboard | Operations (team) | Bradley → leadership | **HTML dashboard** at one permanent Drive link | **Yes**: Metabase, project Google account, 1Password |
-| 11 | Help Center Sync | Operations (team) | Lerone (KC owner) | **Google Doc proposal + tracker Google Sheet** | **Yes**: project Google account |
-| 12 | ICHRA Takeover Objections | Operations (team) | Ann Marie, AEs, Ops | **Deck (HTML→PDF), Q&A Google Doc, reply text** | **Yes**: project Google account |
-| 13 | CS Recruiting | Operations (team) | Ann Marie, Bradley | **Rows in Google Sheets + Slack DM** | **Yes**: project Google account, HubSpot token, Slack |
-| 14 | AI Policy | Compliance | Compliance, policy owners, all staff | **Google Docs** (drafts and published) + Decision Log **sheet** | **Yes**: your own Google login + Drive folder access |
-| 15 | Systems Manager | General Admin | Admins, department users | **Web app** (database) | **Yes**: Google OAuth client, database, JWT secret |
-| 16 | Engineering Support / OniCall | Production | Support staff, engineers | **Slack ticket + channel post + evidence files**; Chrome extension | **Yes**: Slack app credentials |
-| 17 | Local Setup | Production | Engineers | **zorro-ts / zorro-py running locally** | **Yes**: GitHub, AWS, encrypted `.env` files |
-| 18 | Zorro Deck | Cross | Deck builders (e.g. investor deck) | **HTML + PowerPoint + Google Slides** | **Yes**: Google (`gws`) + Drive folder access |
-| 19 | Deployable | Root | AI Dept, platform team | **Design document only** (future: hosted apps) | Not yet |
+**How data gets in (last column):**
+- 🔴 **Live**: reads from or writes to a system (Google, Slack, a carrier website…) while it runs.
+- 🟡 **On-demand pull**: fetches fresh data from a system when someone runs it, then works from that snapshot. The output doesn't update by itself.
+- 🟢 **File-based**: works only from files or text someone provides.
+
+| # | Project | Department | Used by | Input | Who provides the input | Output | Credentials? | Live or file-based? |
+|---|---|---|---|---|---|---|---|---|
+| 1 | AI Initiative Shop | AI Dept | All departments, AI Dept | Problem description, example case, quick evaluation | Any employee or department lead | Process docs + exec deck (PPTX/PDF) | Google Doc access only | 🟢 Manual entry in a Google Doc |
+| 2 | AI Org Deck | AI Dept | AI Dept → leadership | Slide text (`deck.md`) + initiatives from the Candidates Doc | AI Dept | Slide decks (PPTX/PDF) | Google access to rebuild | 🟡 Pulls the Doc when rebuilding; otherwise files |
+| 3 | AI Projects Setup | AI Dept | AI Dept, builders, agents | Project name, which Drive folders it needs, who may use it | Builder requests; AI Dept admin creates | A Google service account per project | **Yes**: GCP admin, 1Password, oauth2l | 🔴 Live: every `gws` call uses a fresh 15-minute token |
+| 4 | AI Workstation Setup | AI Dept | New staff, AI Dept | Person's role (tier), their logins and approvals | The employee; grants from AI Dept and admins | A configured Mac + `~/Workspaces`; scheduled tasks | **Yes**: Claude seat, Google, 1Password, Slack… | 🔴 Live installs and live login checks |
+| 5 | Investor Materials | AI Dept | Leadership, marketing | AI achievements + the investor PPTX | Leadership / AI Dept | Narrative docs + investor deck | No | 🟢 File-based |
+| 6 | Census Raccoon | Sales | AEs (users), engineers | **Broker census files** (xlsx/csv/pdf) + AE's answers at decision gates | **AE** (files come from the broker) | **Excel file** (`normalized.xlsx`) + summary; the app is a Mac `.dmg` | **Yes**: AWS Bedrock key | 🟢 File-based (AI calls go live to Bedrock). **No live link to Tornado**: the AE uploads the result |
+| 7 | Proposal Studio | Sales | AEs → prospects | **Tornado quote export (JSON)** + AE's choices (plans, fees, copy, slides) | **AE** (exports from Tornado) | **Interactive HTML + PDF proposal** | AEs: Drive + Tornado access. Builders: Google, Figma, Slack | 🟢 File-based, fully offline. **No live link to Tornado** |
+| 8 | Enrollment Copilot | Operations | Ops operators | Member/enrollment record + the carrier's recipe | **Operator** loads the record; **engineers** write recipes | **Completed enrollment on the carrier website** + recordings in Drive | **Yes**: carrier logins, AWS, Google service account | 🔴 Live on the carrier website in the operator's browser. Member data is loaded per enrollment (the live production pull isn't cleared for real use yet) |
+| 9 | CRM Cockpit | Operations | Ops managers | **Intercom data**: conversations, tickets, calls, contacts | **Engineer / AI Dept** runs the pull | **Single HTML dashboard** + PDF reports + Doc tab | **Yes**: Intercom API token, Google | 🟡 On-demand pull. The dashboard is a **snapshot** dated by its pull, not live |
+| 10 | Enrollment Dashboard | Operations (team) | Bradley → leadership | **2 Metabase exports** (enrollment report + employer details) | **Bradley** downloads them by hand | **HTML dashboard** at one permanent Drive link | **Yes**: Metabase, project Google account, 1Password | 🟢 File-based (manual downloads). Publishing to Drive is live |
+| 11 | Help Center Sync | Operations (team) | Lerone (KC owner) | **Change description**, type and effective date (+ links to PRDs, Looms, Slack) | **Lerone** or whoever announces the change | **Google Doc proposal + tracker Google Sheet** | **Yes**: project Google account | 🔴 Live: reads the current KC docs, SOPs and help site each run |
+| 12 | ICHRA Takeover Objections | Operations (team) | Ann Marie, AEs, Ops | **Prospect's questions**, competitor's claims, census counts only | **AE / Ann Marie**, per deal | **Deck (HTML→PDF), Q&A Google Doc, reply text** | **Yes**: project Google account | 🟢 File-based, one folder per deal |
+| 13 | CS Recruiting | Operations (team) | Ann Marie, Bradley | **Job applications** (careers sheet from the HubSpot form), resumes, Calendar interviews | **Candidates** via the careers form (automatic); team adds interviews in Calendar | **Rows in Google Sheets + Slack DM** | **Yes**: project Google account, HubSpot token, Slack | 🔴 Live: reads the sheets and Calendar on a schedule (3×/day) |
+| 14 | AI Policy | Compliance | Compliance, policy owners, all staff | Policy text (Markdown), register details, reviewers' comments | **Compliance team / policy owners**; reviewers comment | **Google Docs** (drafts and published) + Decision Log **sheet** | **Yes**: your own Google login + Drive folder access | 🔴 Live sync with Drive and Sheets when the tool runs |
+| 15 | Systems Manager | General Admin | Admins, department users | Vendors, systems, costs, renewals, department usage, typed into forms | **Admins** and **department users** | **Web app** (database) | **Yes**: Google OAuth client, database, JWT secret | 🔴 Live database, but **manual entry**: no automatic sync with other systems |
+| 16 | Engineering Support / OniCall | Production | Support staff, engineers | Bug report form + evidence captured from the browser | **Support staff** (CS, Ops) | **Slack ticket + channel post + evidence files**; Chrome extension | **Yes**: Slack app credentials | 🔴 Live: posts straight to Slack |
+| 17 | Local Setup | Production | Engineers | Repos from GitHub, the `.env` zip, AWS login | **Engineer**; Nadav sends the `.env` zip | **zorro-ts / zorro-py running locally** | **Yes**: GitHub, AWS, encrypted `.env` files | 🔴 Live: clones repos, connects to AWS |
+| 18 | Zorro Deck | Cross | Deck builders (e.g. investor deck) | Slide content in `spec.json` (+ images, an existing deck to copy) | **Deck builder** | **HTML + PowerPoint + Google Slides** | **Yes**: Google (`gws`) + Drive folder access | 🟢 File-based build; publishing to Google Slides is on demand. Pulling Drive edits back isn't built yet |
+| 19 | Deployable | Root | AI Dept, platform team | — (design only) | — | **Design document only** (future: hosted apps) | Not yet | — |
 
 ---
 
