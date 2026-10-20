@@ -247,7 +247,7 @@ The project-specific parts are **what the project does, who it's for, and its ru
 
 | Part | What it does |
 |---|---|
-| **Profiles** | 4 access tiers: **user** (uses AI through a UI) → **operator** (runs prepared projects) → **builder** (creates projects) → **engineer** (writes production code, approves PRs). Plus `-phi` versions for people allowed to handle patient data |
+| **Profiles** | 4 access tiers, ordered by authority: **user** (uses AI for everyday work, through a UI) → **operator** (runs harnesses and workflows set up for them, adapts rules and settings, reviews outputs) → **builder** (sets up and shapes harnesses: creates projects, writes rules and procedures) → **engineer** (changes and reviews production code, builds from scratch, merges and approves PRs). Plus `-phi` versions for people allowed to handle patient data |
 | **Tools registry** | One file per approved tool: how to install, permissions, risks (Claude Code, gws, Slack, GitHub, Linear, Figma, AWS…) |
 | **Workspace kit** | `setup-workspace.sh`: one script that sets up an operator's or builder's Mac in 20–30 minutes |
 | **Patterns** | Credential rules: "1Password to share, Keychain to use, never a plain file" |
@@ -1088,6 +1088,8 @@ You run the login and password steps yourself.
 | Publish a result to Google Drive | Contributor / Operator | 9 |
 
 One person can hold several roles. Pick the role for **the task in front of you**.
+
+> **These roles are this guide's own task labels, not the repo's.** The repo defines only the four access tiers: user, operator, builder, engineer (`ai_workstation_setup/profiles/AGENTS.md`). Here, **Operator** and **Builder** match those tiers. **Learner**, **End user**, **Contributor**, **Reviewer** and **AI Dept** are descriptions of what you're doing, added to organise the procedures. Reviewing and merging PRs is limited to the engineer tier.
 
 ---
 
