@@ -81,6 +81,6 @@ Stress this part.
 | Is it safe with patient data? | PHI stays out of the repo, and sensitive AI work uses only approved AWS Bedrock paths. Agents can't contact outsiders. |
 | Who maintains it? | Mainly the AI department, with department owners for each project. |
 | How does a team get a project? | Submit the problem in the AI Initiative Candidates doc; the AI department evaluates it. |
-| Can anyone use it? | Access depends on role. Most people use the finished tools; fewer people run or build projects. |
+| Can anyone use it? | Access depends on role. Most people use the finished tools; fewer people run or build projects. | 
 | What's the biggest risk? | Most of the work depends on a small team, and most apps aren't yet on a proper hosting platform. |
 | What do you need from us? | *(Fill in: e.g. which projects to prioritize, access decisions, your expected role.)* |
