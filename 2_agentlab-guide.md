@@ -26,16 +26,21 @@
 
 ## How every project is used
 
-Almost every project works the same way:
+There are two kinds of project, and you work on them in different places:
 
 ```
-1. Open Claude Code in agentlab (or in your ~/Workspaces for operator projects)
+A) Projects in the agentlab repo (Census Raccoon, Proposals, CRM Cockpit, …)
+1. Open Claude Code in your agentlab clone
 2. "Read the root AGENTS.md. Department: <dept>, project: <project>."
-3. Claude reads that project's AGENTS.md (its rules and workflows)
-4. You give a task in plain English
-5. Claude runs the project's scripts, asks you at decision points, and saves results
-   (code → GitHub PR, documents → Google Drive, personal data → stays on your machine)
+3. Give the task; Claude follows the project's rules; changes go back as a branch + PR
+
+B) Agent projects run by staff (customer-team projects)
+1. Open Zed on ~/Workspaces and start Claude (it reads the workspace AGENTS.md itself)
+2. "Work on <project>." then give the task
+3. Results go to Drive or stay local; no git push, no PR
 ```
+
+In both, Claude reads the project's `AGENTS.md` (its rules and workflows), runs its scripts, and asks you at decision points. Personal data always stays on your machine.
 
 The project-specific parts are **what the project does, who it's for, and its rules**. That is what this guide covers.
 
