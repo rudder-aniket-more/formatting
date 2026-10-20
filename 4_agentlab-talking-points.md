@@ -46,8 +46,6 @@ Pick 2–3 to highlight, depending on your audience.
   - **builder:** creates projects and writes their rules and procedures
   - **engineer:** changes and reviews production code, merges and approves PRs
 - Each person gets the **lowest level that lets them do their job**.
-- Many people only use the result, such as the app, dashboard or proposal, without touching the repo. *(This is a description, not one of the repo's tiers.)*
-
 ### 5. Safety (45 sec)
 Stress this part.
 - **Patient data never goes into the repository.**
@@ -81,6 +79,6 @@ Stress this part.
 | Is it safe with patient data? | PHI stays out of the repo, and sensitive AI work uses only approved AWS Bedrock paths. Agents can't contact outsiders. |
 | Who maintains it? | Mainly the AI department, with department owners for each project. |
 | How does a team get a project? | Submit the problem in the AI Initiative Candidates doc; the AI department evaluates it. |
-| Can anyone use it? | Access depends on role. Most people use the finished tools; fewer people run or build projects. | 
+| Can anyone use it? | Access depends on role. Most people use the finished tools; fewer people run or build projects. |
 | What's the biggest risk? | Most of the work depends on a small team, and most apps aren't yet on a proper hosting platform. |
 | What do you need from us? | *(Fill in: e.g. which projects to prioritize, access decisions, your expected role.)* |
